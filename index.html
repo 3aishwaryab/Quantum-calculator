@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Calculator - Unique Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-neon">
+    <div class="quantum-container">
+        <!-- Header with Theme Switcher -->
+        <header class="calculator-header">
+            <div class="header-content">
+                <h1 class="calculator-title">
+                    <i class="fas fa-atom"></i>
+                    Quantum Calculator
+                </h1>
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="neon" title="Neon Theme">
+                        <i class="fas fa-bolt"></i>
+                    </button>
+                    <button class="theme-btn" data-theme="matrix" title="Matrix Theme">
+                        <i class="fas fa-code"></i>
+                    </button>
+                    <button class="theme-btn" data-theme="solar" title="Solar Theme">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button class="theme-btn" data-theme="ocean" title="Ocean Theme">
+                        <i class="fas fa-water"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="calculator-main">
+            <div class="calculator-grid">
+                <!-- History Panel -->
+                <aside class="history-panel" id="historyPanel">
+                    <div class="history-header">
+                        <h3><i class="fas fa-history"></i> History</h3>
+                        <button class="btn-clear-history" onclick="clearHistory()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="history-content" id="historyContent">
+                        <div class="history-empty">No calculations yet</div>
+                    </div>
+                </aside>
+
+                <!-- Main Calculator -->
+                <section class="calculator-section">
+                    <!-- Display Screen -->
+                    <div class="display-container">
+                        <div class="expression-display" id="expressionDisplay"></div>
+                        <div class="main-display" id="mainDisplay">0</div>
+                        <div class="unit-display" id="unitDisplay"></div>
+                    </div>
+
+                    <!-- Mode Switcher -->
+                    <div class="mode-switcher">
+                        <button class="mode-btn active" data-mode="basic">Basic</button>
+                        <button class="mode-btn" data-mode="scientific">Scientific</button>
+                        <button class="mode-btn" data-mode="converter">Converter</button>
+                    </div>
+
+                    <!-- Basic Calculator -->
+                    <div class="calculator-panel active" id="basicPanel">
+                        <div class="button-grid">
+                            <!-- Row 1: Memory Functions -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-memory" onclick="memoryRecall()" title="Memory Recall">
+                                    <i class="fas fa-memory"></i> MR
+                                </button>
+                                <button class="btn-calc btn-memory" onclick="memoryClear()" title="Memory Clear">
+                                    <i class="fas fa-eraser"></i> MC
+                                </button>
+                                <button class="btn-calc btn-memory" onclick="memoryAdd()" title="Memory Add">
+                                    <i class="fas fa-plus"></i> M+
+                                </button>
+                                <button class="btn-calc btn-memory" onclick="memorySubtract()" title="Memory Subtract">
+                                    <i class="fas fa-minus"></i> M-
+                                </button>
+                            </div>
+
+                            <!-- Row 2: Clear and Delete -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-clear" onclick="clearAll()">AC</button>
+                                <button class="btn-calc btn-delete" onclick="deleteLast()">
+                                    <i class="fas fa-backspace"></i>
+                                </button>
+                                <button class="btn-calc btn-operator" onclick="appendOperator('%')">%</button>
+                                <button class="btn-calc btn-operator" onclick="appendOperator('/')">÷</button>
+                            </div>
+
+                            <!-- Row 3: Numbers 7-9 -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-number" onclick="appendNumber('7')">7</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('8')">8</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('9')">9</button>
+                                <button class="btn-calc btn-operator" onclick="appendOperator('*')">×</button>
+                            </div>
+
+                            <!-- Row 4: Numbers 4-6 -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-number" onclick="appendNumber('4')">4</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('5')">5</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('6')">6</button>
+                                <button class="btn-calc btn-operator" onclick="appendOperator('-')">−</button>
+                            </div>
+
+                            <!-- Row 5: Numbers 1-3 -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-number" onclick="appendNumber('1')">1</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('2')">2</button>
+                                <button class="btn-calc btn-number" onclick="appendNumber('3')">3</button>
+                                <button class="btn-calc btn-operator" onclick="appendOperator('+')">+</button>
+                            </div>
+
+                            <!-- Row 6: Zero, Decimal, Equals -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-number btn-zero" onclick="appendNumber('0')">0</button>
+                                <button class="btn-calc btn-decimal" onclick="appendDecimal()">.</button>
+                                <button class="btn-calc btn-equals" onclick="calculate()">=</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scientific Calculator -->
+                    <div class="calculator-panel" id="scientificPanel">
+                        <div class="scientific-grid">
+                            <!-- Scientific Functions Row 1 -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('sin')">sin</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('cos')">cos</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('tan')">tan</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('log')">log</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('ln')">ln</button>
+                            </div>
+
+                            <!-- Scientific Functions Row 2 -->
+                            <div class="button-row">
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('sqrt')">√</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('pow2')">x²</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('pow3')">x³</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('pow')">xʸ</button>
+                                <button class="btn-calc btn-scientific" onclick="scientificFunction('pi')">π</button>
+                            </div>
+
+                            <!-- Standard keypad -->
+                            <div class="button-grid">
+                                <div class="button-row">
+                                    <button class="btn-calc btn-operator" onclick="appendOperator('(')">(</button>
+                                    <button class="btn-calc btn-operator" onclick="appendOperator(')')">)</button>
+                                    <button class="btn-calc btn-clear" onclick="clearAll()">AC</button>
+                                    <button class="btn-calc btn-delete" onclick="deleteLast()">
+                                        <i class="fas fa-backspace"></i>
+                                    </button>
+                                </div>
+                                <div class="button-row">
+                                    <button class="btn-calc btn-number" onclick="appendNumber('7')">7</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('8')">8</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('9')">9</button>
+                                    <button class="btn-calc btn-operator" onclick="appendOperator('/')">÷</button>
+                                </div>
+                                <div class="button-row">
+                                    <button class="btn-calc btn-number" onclick="appendNumber('4')">4</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('5')">5</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('6')">6</button>
+                                    <button class="btn-calc btn-operator" onclick="appendOperator('*')">×</button>
+                                </div>
+                                <div class="button-row">
+                                    <button class="btn-calc btn-number" onclick="appendNumber('1')">1</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('2')">2</button>
+                                    <button class="btn-calc btn-number" onclick="appendNumber('3')">3</button>
+                                    <button class="btn-calc btn-operator" onclick="appendOperator('-')">−</button>
+                                </div>
+                                <div class="button-row">
+                                    <button class="btn-calc btn-number btn-zero" onclick="appendNumber('0')">0</button>
+                                    <button class="btn-calc btn-decimal" onclick="appendDecimal()">.</button>
+                                    <button class="btn-calc btn-equals" onclick="calculate()">=</button>
+                                    <button class="btn-calc btn-operator" onclick="appendOperator('+')">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Converter Panel -->
+                    <div class="calculator-panel" id="converterPanel">
+                        <div class="converter-grid">
+                            <div class="converter-type">
+                                <select class="form-select" id="converterType" onchange="updateConverter()">
+                                    <option value="currency">Currency</option>
+                                    <option value="length">Length</option>
+                                    <option value="weight">Weight</option>
+                                    <option value="temperature">Temperature</option>
+                                </select>
+                            </div>
+                            
+                            <div class="converter-inputs">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="fromValue" placeholder="Enter value">
+                                    <select class="form-select" id="fromUnit"></select>
+                                </div>
+                                <div class="text-center my-3">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="toValue" placeholder="Result" readonly>
+                                    <select class="form-select" id="toUnit"></select>
+                                </div>
+                            </div>
+                            
+                            <button class="btn-calc btn-convert" onclick="performConversion()">
+                                <i class="fas fa-sync"></i> Convert
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Memory Display -->
+                    <div class="memory-display" id="memoryDisplay">
+                        <small>Memory: <span id="memoryValue">0</span></small>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer with Sound Toggle -->
+        <footer class="calculator-footer">
+            <div class="footer-controls">
+                <button class="sound-toggle" id="soundToggle" title="Toggle Sound">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="history-toggle" id="historyToggle" title="Toggle History">
+                    <i class="fas fa-history"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
